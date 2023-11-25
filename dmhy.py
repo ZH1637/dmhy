@@ -23,6 +23,15 @@ from lxml import etree
 # some other imports if necessary
 
 class dmhy(object):
+    """
+    `url`, `name`, `supported_categories` should be static variables of the engine_name class,
+     otherwise qbt won't install the plugin.
+
+    `url`: The URL of the search engine.
+    `name`: The name of the search engine, spaces and special characters are allowed here.
+    `supported_categories`: What categories are supported by the search engine and their corresponding id,
+    possible categories are ('all', 'anime', 'books', 'games', 'movies', 'music', 'pictures', 'software', 'tv').
+    """
 
     url = 'https://share.dmhy.org'
     name = 'DMHY'
@@ -51,7 +60,26 @@ class dmhy(object):
             prettyPrinter(tmp)
         return res
 
+    def download_torrent(self, info):
+        """
+        Providing this function is optional.
+        It can however be interesting to provide your own torrent download
+        implementation in case the search engine in question does not allow
+        traditional downloads (for example, cookie-based download).
+        """
+        print(download_file(info))
+
+    # DO NOT CHANGE the name and parameters of this function
+    # This function will be the one called by nova2.py
     def search(self, what, cat='all'):
+        """
+        Here you can do what you want to get the result from the search engine website.
+        Everytime you parse a result line, store it in a dictionary
+        and call the prettyPrint(your_dict) function.
+
+        `what` is a string with the search tokens, already escaped (e.g. "Ubuntu+Linux")
+        `cat` is the name of a search category in ('all', 'anime', 'books', 'games', 'movies', 'music', 'pictures', 'software', 'tv')
+        """
         hits = []
         url = self.url
         page = 1
@@ -67,4 +95,5 @@ class dmhy(object):
 
 if __name__ == '__main__':
     d = dmhy()
-    d.search('dxd')
+    d.search('C3魔方少女')
+    print(1)
